@@ -1,0 +1,29 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% block particle %}
+<div class="univac-kvm-console" style="background-color: #1a1a1a; padding: 20px; border-radius: 8px;">
+    <h3 style="color: #ffaa00; font-family: monospace;">UNIVAC-IX SPERRY TERMINAL INTERFACE</h3>
+    
+    <div class="terminal-meta" style="color: #666; font-size: 0.9em; margin-bottom: 10px;">
+        <span>Host: {{ particle.server_ip }}:{{ particle.connection_port }}</span> | 
+        <span>Security: {{ particle.encryption|upper }}</span>
+    </div>
+
+    <div id="vnc-container" style="width: 100%; height: 600px; background-color: #000; border: 2px solid {% if particle.terminal_theme == 'amber' %}#ffaa00{% elseif particle.terminal_theme == 'green' %}#00ff00{% else %}#ffffff{% endif %};">
+        
+        <canvas id="noVNC_canvas" style="width: 100%; height: 100%;"></canvas>
+        
+        <script>
+            // Note: This requires the noVNC library to be loaded in your Gantry theme.
+            console.log("Initializing KVM connection to Univac-IX...");
+            console.log("Target: ws://{{ particle.server_ip }}:{{ particle.connection_port }}");
+            
+            // Apply theme styling dynamically
+            var canvas = document.getElementById('noVNC_canvas');
+            canvas.style.color = "{% if particle.terminal_theme == 'amber' %}#ffaa00{% elseif particle.terminal_theme == 'green' %}#00ff00{% else %}#ffffff{% endif %}";
+        </script>
+    </div>
+    
+    <p style="color: #ffaa00; font-family: monospace; font-size: 0.8em; margin-top: 10px;">> Connection established. Awaiting input...</p>
+</div>
+{% endblock %}

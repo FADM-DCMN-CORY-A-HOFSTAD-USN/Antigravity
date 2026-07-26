@@ -1,0 +1,49 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% block particle %}
+<div class="tricorder-dashboard" style="background-color: #050a12; color: #00ffff; padding: 30px; border-radius: 12px; border: 2px solid #005577; box-shadow: 0 0 20px rgba(0, 255, 255, 0.15); font-family: 'Consolas', monospace;">
+    
+    <div style="border-bottom: 2px solid #00ffff; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="color: #ffffff; text-transform: uppercase; margin: 0; letter-spacing: 2px;">{{ particle.name }}</h2>
+        <div class="led-indicator" style="width: 15px; height: 15px; background-color: #00ffff; border-radius: 50%; box-shadow: 0 0 10px #00ffff; animation: pulse 2s infinite;"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        
+        <div style="background-color: #02111b; padding: 20px; border: 1px solid #003344; border-radius: 8px;">
+            <h4 style="color: #00aaff; margin-top: 0; font-size: 0.9em;">HEART RATE</h4>
+            <div style="font-size: 2.5em; color: #ffffff;">-- <span style="font-size: 0.4em; color: #00ffff;">BPM</span></div>
+            <div style="height: 40px; border-bottom: 1px solid #003344; margin-top: 10px;">
+                <svg width="100%" height="100%" style="stroke: #00ffff; stroke-width: 2; fill: none;">
+                    <polyline points="0,20 20,20 30,5 40,35 50,20 100,20" />
+                </svg>
+            </div>
+        </div>
+
+        <div style="background-color: #02111b; padding: 20px; border: 1px solid #003344; border-radius: 8px;">
+            <h4 style="color: #00aaff; margin-top: 0; font-size: 0.9em;">SKIN TEMP</h4>
+            <div style="font-size: 2.5em; color: #ffffff;">-- <span style="font-size: 0.4em; color: #00ffff;">°C</span></div>
+            <div style="color: #888888; font-size: 0.8em; margin-top: 15px;">Target: 36.5°C</div>
+        </div>
+
+        <div style="background-color: #02111b; padding: 20px; border: 1px solid #003344; border-radius: 8px;">
+            <h4 style="color: #00aaff; margin-top: 0; font-size: 0.9em;">GSR (STRESS)</h4>
+            <div style="font-size: 2.5em; color: #ffffff;">-- <span style="font-size: 0.4em; color: #00ffff;">µS</span></div>
+            <div style="color: #888888; font-size: 0.8em; margin-top: 15px;">Baseline: 10µS</div>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px; background-color: #02111b; padding: 15px; border-left: 4px solid #00ffff;">
+        <p style="margin: 0; color: #888888; font-size: 0.9em;">DIAGNOSTIC STATUS (MODE: {{ particle.scanner_mode|upper }}):</p>
+        <p style="margin: 5px 0 0 0; color: #00ffff;">> WAITING FOR PATIENT TELEMETRY STREAM VIA {{ particle.data_stream_ip }}...</p>
+    </div>
+
+    <style>
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px #00ffff; }
+            50% { box-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff; }
+            100% { box-shadow: 0 0 10px #00ffff; }
+        }
+    </style>
+</div>
+{% endblock %}

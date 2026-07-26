@@ -1,0 +1,16 @@
+# GANTRY 5: CLIENT SHIP TEMPLATE
+client_id: "Alpha_Squadron"
+ship_class: "Type-S Recon"
+design_style: "Stealth_Black"
+
+mechanical_chassis:
+  grid_rings: 2
+  eclss_capacity: "high_exertion"
+  hull_plating: "titanium_electret"
+
+avionics_silicon:
+  form_factor: "ATX"
+  board_width: 244
+  board_length: 305
+  primary_cpu: "hex_native_cpu"
+  network: "jamoni_crystal_sync"

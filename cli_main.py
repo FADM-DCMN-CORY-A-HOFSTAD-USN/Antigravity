@@ -3,7 +3,8 @@ import logging
 import subprocess
 from pathlib import Path
 from typing import Optional
-
+from performance_bridge import crank_performance
+crank_performance()
 logging.basicConfig(level=logging.INFO, format="[%(asctime)s] [%(levelname)s] %(message)s")
 
 app = typer.Typer(
@@ -12,9 +13,33 @@ app = typer.Typer(
     add_completion=False
 )
 
-# Dynamically find the root of the repository (since this script is now in the root)
 REPO_ROOT = Path(__file__).parent
+"""RESTORED COMMAND: Configuration Editor"""
+import json
 
+@app.command()
+def config(
+    key: str = typer.Argument(..., help="Configuration key to modify"),
+    value: str = typer.Argument(..., help="New value for the configuration key")
+):
+    """Dynamically updates the configuration bridge JSON."""
+    
+    """Guard 1: Missing JSON matrix"""
+    if not os.path.exists(CONFIG_FILE):
+        typer.secho("CRITICAL: Configuration file missing.", fg=typer.colors.RED)
+        raise typer.Exit(1)
+        
+    with open(CONFIG_FILE, 'r') as f:
+        data = json.load(f)
+        
+    """Update Matrix"""
+    data[key] = value
+    
+    with open(CONFIG_FILE, 'w') as f:
+        json.dump(data, f, indent=4)
+        
+    typer.secho(f"Configuration overridden: {key} = {value}", fg=typer.colors.GREEN)
+    
 def verify_system_integrity(func):
     """Ensures environment variables and files exist before operation."""
     def wrapper(*args, **kwargs):
@@ -35,7 +60,43 @@ def math():
         typer.echo(spec_file.read_text())
     else:
         typer.secho("Theoretical framework file not found.", fg=typer.colors.RED)
+
+"""MISSING COMMAND: Acoustic Resonance Tuner"""
+from acoustic_tuner_app import MaxPowerAcousticMatrix
+
+@app.command()
+def acoustic(
+    acoustic_freq: float = typer.Option(0.0, help="Live motor tone frequency (Hz)"),
+    exhaust_temp: float = typer.Option(1050.0, help="Exhaust gas temperature (Kelvin)"),
+    hull_length: float = typer.Option(2.450, help="Physical hull exhaust length (m)"),
+    nozzle_radius: float = typer.Option(0.435, help="Exhaust exit nozzle radius (m)")
+):
+    """Engages the acoustic resonant wave tuning matrix for thrust scavenging."""
+    
+    """Guard 1: Ensure frequency is active to prevent zero-division math"""
+    if acoustic_freq <= 0.0:
+        typer.secho("Acoustic tuning aborted: Frequency must be > 0 Hz", fg=typer.colors.YELLOW)
+        raise typer.Exit()
         
+    typer.secho("INITIATING MAX POWER ACOUSTIC MATRIX...", fg=typer.colors.CYAN)
+    
+    tuner_matrix = MaxPowerAcousticMatrix(
+        fixed_length=hull_length,
+        nozzle_radius=nozzle_radius,
+        gas_constant=291.40,
+        gamma=1.334
+    )
+    
+    acoustic_results = tuner_matrix.evaluate_max_power_tuning(
+        live_frequency=acoustic_freq,
+        exhaust_temp_k=exhaust_temp
+    )
+    
+    typer.echo(f"Speed of Sound (Plume): {round(acoustic_results['c_plume'], 2)} m/s")
+    typer.echo(f"Alignment Error: {round(acoustic_results['error_m'], 4)} m")
+    typer.echo(f"Cancellation Efficiency: {acoustic_results['cancellation_efficiency_percent']}%")
+    typer.secho(f"Scavenging Thrust Gain: +{acoustic_results['scavenging_thrust_gain_newtons']} N", fg=typer.colors.GREEN)
+
 @app.command()
 @verify_system_integrity
 def render(
@@ -128,6 +189,24 @@ def bak_specs(
         typer.echo(spec_file.read_text())
     else:
         typer.secho(f"BAK integration document '{doc}' not found.", fg=typer.colors.RED)
+"""MISSING COMMAND: Safe Ground Stance Shutdown"""
+from safe_shutdown import GroundStanceController
 
+@app.command()
+def shutdown():
+    """Gracefully bleeds aerodynamic energy to prevent suspension rebound."""
+    typer.secho("INITIATING SAFE CHASSIS SETTLEMENT...", fg=typer.colors.CYAN)
+    
+    nav, computer, dispatcher = initialize_avionics()
+    shutdown_manager = GroundStanceController(computer)
+    
+    success = shutdown_manager.execute_shutdown()
+    
+    """Guard 1: Abort software shutdown if chassis is airborne"""
+    if not success:
+        typer.secho("SHUTDOWN ABORTED: Chassis is currently airborne.", fg=typer.colors.RED)
+        raise typer.Exit(1)
+        
+    typer.secho("POWER DOWN COMPLETE. SAFE TO SECURE CHASSIS.", fg=typer.colors.GREEN)
 if __name__ == "__main__":
     app()

@@ -1,0 +1,19 @@
+name: "Tricorder Diagnostic Station"
+description: "XPRIZE-Inspired Biometric Scanner for the Antigravity Platform"
+type: "particle"
+icon: "fa-heartbeat"
+configuration:
+  caching:
+    type: "static"
+  fields:
+    scanner_mode:
+      type: "select"
+      default: "scan_yourself"
+      options:
+        scan_yourself: "Scan Yourself (Real-time Biometrics)"
+        diagnosis: "Diagnosis Mode (AI Medical Assessment)"
+      label: "Default Scanner Mode"
+    data_stream_ip:
+      type: "input.text"
+      default: "10.0.1.80:5904"
+      label: "Hexadecimal Telemetry Stream IP"

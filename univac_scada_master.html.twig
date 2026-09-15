@@ -1,0 +1,63 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% block particle %}
+<div class="univac-enterprise-scada" style="background-color: #0a0a0a; color: #00ff00; padding: 25px; border: 3px solid #333; font-family: 'Courier New', Courier, monospace;">
+    
+    <div class="scada-header" style="border-bottom: 2px solid #00ff00; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between;">
+        <h2>{{ particle.name|upper }}</h2>
+        <div style="text-align: right;">
+            <strong>MASTER ORCHESTRATOR:</strong> UNIVAC-IX<br>
+            <strong>CORE IP:</strong> {{ particle.master_orchestrator_ip }}<br>
+            <strong>PROTOCOL:</strong> {{ particle.robotics_protocol|upper }}
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        
+        <div class="factory-zone" style="background-color: #111; padding: 15px; border: 1px solid #555;">
+            <h4 style="color: #ffaa00; margin-top: 0;">ZONE 1: HULL CHASSIS</h4>
+            <p style="font-size: 0.8em; color: #888;">Node: {{ particle.zone_1_steel }}</p>
+            <div style="width: 100%; height: 200px; background-color: #000; display: flex; align-items: center; justify-content: center; border: 1px solid #333;">
+                <span class="status-blink" style="color: #00ff00;">[CNC MILLING ACTIVE]</span>
+            </div>
+            <p style="font-size: 0.8em; margin-bottom: 0;">Task: OpenSCAD Hex-Grid Machining</p>
+        </div>
+
+        <div class="factory-zone" style="background-color: #111; padding: 15px; border: 1px solid #555;">
+            <h4 style="color: #00ccff; margin-top: 0;">ZONE 2: AVIONICS</h4>
+            <p style="font-size: 0.8em; color: #888;">Node: {{ particle.zone_2_silicon }}</p>
+            <div style="width: 100%; height: 200px; background-color: #000; display: flex; align-items: center; justify-content: center; border: 1px solid #333;">
+                <span class="status-blink" style="color: #00ff00;">[SMT PLACEMENT ACTIVE]</span>
+            </div>
+            <p style="font-size: 0.8em; margin-bottom: 0;">Task: ATX Hexadecimal Core Seating</p>
+        </div>
+
+        <div class="factory-zone" style="background-color: #111; padding: 15px; border: 1px solid #555;">
+            <h4 style="color: #ff3333; margin-top: 0;">ZONE 3: ECLSS & WATER</h4>
+            <p style="font-size: 0.8em; color: #888;">Node: {{ particle.zone_3_eclss }}</p>
+            <div style="width: 100%; height: 200px; background-color: #000; display: flex; align-items: center; justify-content: center; border: 1px solid #333;">
+                <span class="status-blink" style="color: #ffaa00;">[PRESSURIZING...]</span>
+            </div>
+            <p style="font-size: 0.8em; margin-bottom: 0;">Task: OXYMOSS Array Integration</p>
+        </div>
+
+    </div>
+
+    <div class="scada-footer" style="margin-top: 20px; font-size: 0.8em; color: #666; border-top: 1px solid #333; padding-top: 10px;">
+        > Univac Master Timing ... SYNCED<br>
+        > Global Shock Absorber Constraints ... ENFORCED<br>
+        > Waiting for next production queue...
+    </div>
+
+</div>
+
+<script>
+    // Simple blinking effect for the active terminal placeholders
+    setInterval(function() {
+        var blinks = document.querySelectorAll('.status-blink');
+        blinks.forEach(function(b) {
+            b.style.visibility = (b.style.visibility == 'hidden' ? '' : 'hidden');
+        });
+    }, 800);
+</script>
+{% endblock %}
